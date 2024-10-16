@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+    <title>Register</title>
+    <script>
+        function validatePasswordRequirements() {
+            const passwordInput = document.getElementById('register-password');
+            const requirements = [
+                { regex: /.{8,}/, elementId: 'length' },
+                { regex: /\d/, elementId: 'number' },
+                { regex: /[a-z]/, elementId: 'lowercase' },
+                { regex: /[A-Z]/, elementId: 'uppercase' },
+                { regex: /[!@#$%^&*(),.?":{}|<>]/, elementId: 'special' }
+            ];
+            
+            passwordInput.addEventListener('input', () => {
+                requirements.forEach(requirement => {
+                    const requirementElement = document.getElementById(requirement.elementId);
+                    if (requirement.regex.test(passwordInput.value)) {
+                        requirementElement.classList.add('valid');
+                        requirementElement.classList.remove('invalid');
+                    } else {
+                        requirementElement.classList.add('invalid');
+                        requirementElement.classList.remove('valid');
+                    }
+                });
+            });
+        }
+
+        function redirectToOtpPage(event) {
+            event.preventDefault();  // Prevent form from submitting normally
+            // Here, you would perform an AJAX request to submit the form data to the backend
+            // If registration is successful, simulate redirection to the OTP page
+            window.location.href = "otp.html";  // Redirect to otp.html for OTP verification
+        }
+
+        window.onload = validatePasswordRequirements;
+    </script>
+    <style>
+        .valid {
+            color: green;
+        }
+        .invalid {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <form id="user-form" class="round-corners" action="/register" method="post" onsubmit="redirectToOtpPage(event)">
+        <div class="form-item">
+            <label for="register-username">Username:</label>
+            <input id="register-username" class="form-input round-corners" type="text" name="username" required>
+        </div>
+        <div class="form-item">
+            <label for="register-email">Email:</label>
+            <input id="register-email" class="form-input round-corners" type="email" name="email" required>
+        </div>
+        <div class="form-item">
+            <label for="register-password">Password:</label>
+            <input id="register-password" class="form-input round-corners" type="password" name="password" required>
+        </div>
+        <div id="password-requirements" class="form-item">
+            <p>Password should be:</p>
+            <ul>
+                <li id="length" class="invalid">At least 8 characters long</li>
+                <li id="number" class="invalid">At least 1 number (0-9)</li>
+                <li id="lowercase" class="invalid">At least 1 lowercase letter (a-z)</li>
+                <li id="uppercase" class="invalid">At least 1 uppercase letter (A-Z)</li>
+                <li id="special" class="invalid">At least 1 special symbol (!@#$%^&*)</li>
+            </ul>
+        </div>
+        <div class="form-item">
+            <label for="register-password-confirm">Confirm Password:</label>
+            <input id="register-password-confirm" class="form-input round-corners" type="password" name="confirm-password" required>
+        </div>
+
+        {% if error %}<p id="error-msg">{{error}}</p>{% endif %}
+
+        <input id="form-submit" class="form-item round-corners" type="submit" value="Register">
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <div class="g-recaptcha" data-sitekey="6Le2WGIqAAAAANSM_87bH9Hy9oEI83JM2lcEAaid"></div>
+        <div id="switch-form">
+            <p>Already have an account? <a class="text-link" href="/login">Login</a></p>
+        </div>
+    </form>
+</body>
+</html>
