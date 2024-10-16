@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OTP Verification</title>
     <style>
-        {% comment %} body {
+        body {
             font-family: Arial, sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
             height: 100vh;
             margin: 0;
-        } {% endcomment %}
+        }
         .otp-container {
             max-width: 400px;
             width: 100%;
@@ -74,7 +74,7 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        <p style="margin-top: 10px;">Didn't receive the OTP? <a href="{{ url_for('resend_otp') }}">Resend OTP</a></p>
+        <p style="margin-top: 10px;">Didn't receive the OTP? <a href="{{ url_for('register') }}">Resend OTP</a></p>
     </div>
 </body>
 </html>
