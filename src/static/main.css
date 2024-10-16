@@ -73,6 +73,58 @@ body {
     margin: 0;
 }
 
+
+
+
+
+
+.otp-container {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+.otp-container h2 {
+    margin-bottom: 20px;
+}
+.otp-container input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+}
+.otp-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.otp-container button:hover {
+    background-color: #45a049;
+}
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
+.success {
+    color: green;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/*zyme added
+
 /* Home page */
 h1 {
     font-size: clamp(1rem, 7vw, 4rem);

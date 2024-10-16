@@ -13,6 +13,12 @@ from flask import (
 from create_database import setup_database
 from utils import login_required, set_session
 
+#otp
+import random
+import smtplib
+from email.message import EmailMessage
+
+
 
 app = Flask(__name__)
 app.secret_key = 'xpSm7p5bgJY8rNoBjGWiz5yjxM-NEBlW6SIBI62OkLc='
@@ -28,9 +34,9 @@ def otp_verification():
     
     # Handle OTP verification logic here if method is POST
     otp = request.form.get('otp')
-    expected_otp = session.get('otp_code')
+    # expected_otp = session.get('otp_code')
 
-    if otp != expected_otp:
+    if otp != otp_global:
         return render_template('otp.html', error='Incorrect OTP, please try again')
 
     # OTP verified, clear from session
@@ -155,8 +161,43 @@ def register():
 
     # We can log the user in right away since no email verification
     set_session(username=username, email=email)
+    otp(email)
     return redirect('/otp')
 
+
+
+def otp(email):
+
+    # Generate a 6-digit OTP
+    global otp_global
+    otp_global = ""
+    for i in range(6):
+        otp_global += str(random.randint(0, 9))
+
+    print(otp_global)  # print for debug swam
+
+    # Set up SMTP server
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+
+    from_mail = 'dennisswanhtet@gmail.com'
+    password = 'nbwo vuit ywbl shrf'  # Consider using environment variables for security
+    server.login(from_mail, password)
+
+    # to_mail = input("Enter your email: ")
+
+    # Create email message
+    msg = EmailMessage()
+    msg['Subject'] = 'OTP Verification'
+    msg['From'] = from_mail
+    msg['To'] = email
+    msg.set_content(f"Your OTP is: {otp_global}")
+
+    # Send email
+    server.send_message(msg)
+    server.quit()
+
+    print("Email sent")
 
 if __name__ == '__main__':
     app.run(debug=True)
